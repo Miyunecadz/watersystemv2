@@ -1,0 +1,36 @@
+name: Develop deployment configuration
+
+on:
+ push:
+  branch: ["develop"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    # pull current branch
+    - name: Pull current branch
+      uses: actions/checkout@v2
+    
+    # Deployment actions
+    - name: Deploy using FTP commands
+      uses: airvzxf/ftp-deployment-action@latest
+      with:
+        # FTP server address
+        server: ${{ secrets.FTP_SERVER }}
+
+        # FTP server username
+        username: ${{ secrets.FTP_USERNAME }}
+        
+        # FTP server password
+        password: ${{ secrets.FTP_PASSWORD }}
+
+        # FTP server port
+        port: ${{ secrets.FTP_PORT }}
+
+        # Local directory to deploy
+        local_dir: ${{ secrets.FTP_LOCAL_DIR }}
+
+        # Make sure nothing will be deleted
+        delete: "false"
+        
